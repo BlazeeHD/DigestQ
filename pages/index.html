@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DigestQ — Interactive Learning Module</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #05090f;
+  --bg2:      #080d16;
+  --surface:  #0c1320;
+  --surf2:    #111925;
+  --border:   rgba(255,255,255,.07);
+  --border2:  rgba(255,255,255,.12);
+  --blue:     #3b82f6;
+  --blue2:    #60a5fa;
+  --cyan:     #22d3ee;
+  --teal:     #2dd4bf;
+  --white:    #f8fafc;
+  --muted:    rgba(248,250,252,.42);
+  --muted2:   rgba(248,250,252,.65);
+  --r-sm:     10px;
+  --r-md:     16px;
+  --r-lg:     24px;
+  --fd:       'Fraunces', serif;
+  --fb:       'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent }
+html { scroll-behavior:smooth; font-size:16px }
+body { font-family:var(--fb); background:var(--bg); color:var(--white); overflow-x:hidden; -webkit-font-smoothing:antialiased }
+a { text-decoration:none; color:inherit }
+img { display:block; max-width:100% }
+
+.bg {
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(59,130,246,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 35% at 90% 10%, rgba(34,211,238,.06) 0%, transparent 50%),
+    var(--bg);
+}
+.bg-lines {
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.4;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 30%, black 20%, transparent 80%);
+}
+
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:60px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px; background:rgba(5,9,15,.82);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; font-family:var(--fd); font-weight:700; font-size:1.05rem; color:var(--white) }
+.nav-icon { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#1d4ed8,#0e7490); display:flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0 }
+.nav-cta { display:inline-flex; align-items:center; gap:7px; background:var(--blue); color:white; padding:8px 16px; border-radius:var(--r-sm); font-family:var(--fb); font-weight:600; font-size:.8rem; letter-spacing:.1px; transition:background .18s }
+.nav-cta:hover { background:#2563eb }
+.nav-cta svg { flex-shrink:0 }
+
+.hero { min-height:100svh; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:90px 24px 64px; text-align:center; position:relative; z-index:1 }
+.badge { display:inline-flex; align-items:center; gap:8px; background:rgba(59,130,246,.08); border:1px solid rgba(59,130,246,.2); color:var(--blue2); font-size:.72rem; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; padding:6px 14px; border-radius:999px; margin-bottom:28px }
+.badge-dot { width:5px; height:5px; border-radius:50%; background:var(--cyan) }
+.hero h1 { font-family:var(--fd); font-size:clamp(3.2rem,11vw,6.8rem); font-weight:700; line-height:.92; letter-spacing:-1.5px; margin-bottom:0 }
+.h1-sub { display:block; font-size:clamp(.8rem,2.5vw,.9rem); font-family:var(--fb); font-weight:500; letter-spacing:4px; text-transform:uppercase; color:var(--muted); margin-bottom:10px }
+.h1-grad { background:linear-gradient(135deg,#e2eeff 0%,#93c5fd 50%,#22d3ee 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text }
+.h1-italic { font-style:italic; color:rgba(248,250,252,.55); -webkit-text-fill-color:rgba(248,250,252,.55) }
+.hero-desc { font-size:clamp(.9rem,2.5vw,1.05rem); font-weight:400; color:var(--muted); max-width:440px; margin:24px auto 36px; line-height:1.75 }
+.hero-desc strong { color:var(--muted2); font-weight:600 }
+
+.dl-btn { display:inline-flex; align-items:center; gap:14px; background:linear-gradient(135deg,#1d4ed8,#0e7490); color:white; padding:14px 22px; border-radius:var(--r-md); font-family:var(--fb); font-weight:600; font-size:.9rem; box-shadow:0 4px 24px rgba(29,78,216,.3), inset 0 1px 0 rgba(255,255,255,.08); transition:transform .18s, box-shadow .18s }
+.dl-btn:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(29,78,216,.38), inset 0 1px 0 rgba(255,255,255,.08) }
+.dl-btn:active { transform:translateY(0) }
+.dl-icon { width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.13); display:flex; align-items:center; justify-content:center; font-size:1.15rem; flex-shrink:0 }
+.dl-text span { display:block; font-size:.62rem; font-weight:500; opacity:.7; margin-bottom:2px; letter-spacing:.3px }
+.dl-text strong { font-size:.88rem; font-weight:700 }
+
+.hero-meta { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:18px }
+.meta-pill { display:flex; align-items:center; gap:6px; font-size:.72rem; font-weight:500; color:var(--muted); padding:5px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.03) }
+.meta-pill svg { flex-shrink:0; opacity:.5 }
+
+.stats-bar { padding:20px 24px; position:relative; z-index:1 }
+.stats-inner { max-width:760px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden }
+@media(max-width:500px){ .stats-inner { grid-template-columns:repeat(2,1fr) } }
+.stat { padding:22px 16px; text-align:center; background:var(--surface) }
+.stat + .stat { border-left:1px solid var(--border) }
+@media(max-width:500px){ .stat:nth-child(3){ border-left:none; border-top:1px solid var(--border) } .stat:nth-child(4){ border-top:1px solid var(--border) } }
+.stat-n { font-family:var(--fd); font-size:clamp(1.6rem,4vw,2.4rem); font-weight:700; line-height:1; color:var(--white); margin-bottom:4px }
+.stat-n span { color:var(--cyan) }
+.stat-l { font-size:.72rem; font-weight:500; color:var(--muted); letter-spacing:.3px }
+
+.sec { padding:70px 24px; position:relative; z-index:1 }
+.wrap { max-width:960px; margin:0 auto }
+.sec-label { display:flex; align-items:center; justify-content:center; gap:10px; font-size:.68rem; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--cyan); margin-bottom:14px }
+.sec-label::before, .sec-label::after { content:''; width:20px; height:1px; background:var(--cyan); opacity:.4 }
+.sec-title { font-family:var(--fd); font-size:clamp(1.7rem,4.5vw,2.6rem); font-weight:700; text-align:center; color:var(--white); line-height:1.1; margin-bottom:10px }
+.sec-sub { text-align:center; font-size:.88rem; color:var(--muted); line-height:1.7; max-width:440px; margin:0 auto }
+.sec-head { margin-bottom:44px }
+
+/* ── SCREEN CARDS ── */
+.screens-scroller { overflow-x:auto; padding-bottom:16px; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.1) transparent }
+.screens-scroller::-webkit-scrollbar { height:4px }
+.screens-scroller::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:2px }
+.screens-row { display:flex; gap:16px; width:max-content; padding:0 24px }
+.screen-card { flex-shrink:0; width:clamp(155px,28vw,180px); background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); overflow:hidden; transition:border-color .18s, transform .18s }
+.screen-card:hover { border-color:var(--border2); transform:translateY(-4px) }
+.screen-label { padding:8px 12px; font-family:var(--fd); font-size:.72rem; font-weight:700; color:var(--muted2); background:var(--surf2); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px }
+.screen-body { height:clamp(230px,42vw,290px); display:flex; align-items:stretch }
+.sc-home   { background:linear-gradient(160deg,#0a1628,#0d2040) }
+.sc-mockup { background:linear-gradient(160deg,#0d1a2e,#1a0d2e) }
+.sc-model  { background:linear-gradient(160deg,#0a1628,#0a2040) }
+.sc-flow   { background:linear-gradient(160deg,#0a1e28,#0a2818) }
+.sc-sim    { background:linear-gradient(160deg,#050520,#0a0a28) }
+.sc-quiz   { background:linear-gradient(160deg,#1c0f0a,#0a1628) }
+.sc-drill  { background:linear-gradient(160deg,#0a0a28,#0a1428) }
+.sc-stats  { background:linear-gradient(160deg,#0a1628,#0d2040) }
+
+/* mini phone */
+.mini-phone { width:100%; display:flex; flex-direction:column; font-size:.5rem }
+.mp-bar { background:#040d1e; padding:4px 8px; display:flex; align-items:center; gap:4px; flex-shrink:0 }
+.mp-logo { font-size:.65rem }
+.mp-name { font-family:var(--fd); font-size:.6rem; font-weight:700; color:white; flex:1 }
+.mp-pts { background:rgba(255,255,255,.12); border-radius:20px; padding:1px 5px; font-size:.48rem; color:white; font-weight:700 }
+.mp-tabs { background:#040d1e; display:flex; border-bottom:1px solid rgba(255,255,255,.08); flex-shrink:0 }
+.mp-tab { flex:1; padding:3px 1px; text-align:center; font-size:.36rem; color:rgba(255,255,255,.3) }
+.mp-tab.active { color:#fbbf24; border-bottom:1.5px solid #fbbf24 }
+.mp-content { flex:1; overflow:hidden; padding:6px; display:flex; flex-direction:column }
+
+/* home */
+.mp-welcome { background:linear-gradient(135deg,#0d2463,#1e3a5f); border-radius:5px; padding:5px 6px; margin-bottom:4px; display:flex; align-items:center; gap:4px }
+.mp-robot { font-size:.9rem }
+.mp-wtxt { font-size:.44rem; color:white; font-weight:600; line-height:1.4 }
+.mp-row { background:rgba(255,255,255,.06); border-radius:4px; padding:4px 6px; margin-bottom:3px; display:flex; align-items:center; gap:4px }
+.mp-row-icon { width:16px; height:16px; border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:.55rem; flex-shrink:0 }
+.mp-row-txt { font-size:.44rem; color:rgba(255,255,255,.8); font-weight:600 }
+
+/* mockup */
+.mp-body-area { position:relative; flex:1; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.04); border-radius:4px }
+.mp-chip { position:absolute; background:rgba(255,255,255,.9); border-radius:3px; padding:2px 5px; font-size:.38rem; font-weight:700; color:#060e24 }
+.mp-slot { position:absolute; width:18px; height:18px; border:1.5px dashed rgba(59,130,246,.6); border-radius:50%; background:rgba(59,130,246,.1); display:flex; align-items:center; justify-content:center; font-size:.55rem; color:rgba(59,130,246,.8) }
+
+/* model */
+.mp-organ-img { background:#1a2540; border-radius:5px; display:flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:4px; height:70px; flex-shrink:0 }
+.mp-organ-title { font-size:.54rem; font-weight:700; color:white; margin-bottom:2px }
+.mp-organ-info { font-size:.42rem; color:rgba(255,255,255,.7); line-height:1.5 }
+
+/* flow */
+.mp-flow-cols { display:flex; gap:4px; flex:1; min-height:0 }
+.mp-flow-left { flex:1; display:flex; flex-direction:column; gap:2px }
+.mp-flow-right { flex:1; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.1); border-radius:4px; display:flex; align-items:center; justify-content:center }
+.mp-block { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); border-radius:3px; padding:2px 4px; font-size:.38rem; color:rgba(255,255,255,.8) }
+.mp-flow-hint { font-size:.36rem; color:rgba(255,255,255,.3); text-align:center; line-height:1.5 }
+
+/* sim */
+.mp-sim-screen { background:#000; border-radius:4px; height:70px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; margin-bottom:4px; flex-shrink:0 }
+.mp-sim-info { font-size:.42rem; color:rgba(255,255,255,.6); margin-bottom:4px }
+.mp-sim-btn { background:#3b82f6; border-radius:3px; padding:3px 6px; font-size:.44rem; font-weight:700; color:white; text-align:center }
+
+/* quiz */
+.mp-q-label { font-size:.4rem; color:#3b82f6; font-weight:700; margin-bottom:2px }
+.mp-q-text { font-size:.46rem; font-weight:700; color:#060e24; margin-bottom:4px; line-height:1.4 }
+.mp-opt { background:#f0f6ff; border:1px solid #bfdbfe; border-radius:3px; padding:2px 4px; margin-bottom:2px; font-size:.4rem; color:#060e24; display:flex; align-items:center; gap:3px }
+.mp-opt-l { background:#bfdbfe; width:11px; height:11px; border-radius:2px; display:flex; align-items:center; justify-content:center; font-size:.36rem; font-weight:800; flex-shrink:0 }
+.mp-opt.correct { background:#ecfdf5; border-color:#34d399 }
+.mp-opt.correct .mp-opt-l { background:#34d399; color:white }
+.mp-quiz-wrap { background:white; border-radius:5px; padding:5px; flex:1 }
+
+/* drill */
+.mp-drill-header { background:#1a2d5a; border-radius:5px; padding:4px 6px; margin-bottom:4px; text-align:center; flex-shrink:0 }
+.mp-drill-title { font-size:.55rem; font-weight:700; color:#fbbf24; letter-spacing:1px }
+.mp-drill-sub { font-size:.38rem; color:rgba(255,255,255,.5) }
+.mp-drill-card { background:rgba(255,255,255,.08); border-radius:4px; padding:5px; margin-bottom:4px; flex-shrink:0 }
+.mp-drill-clue { font-size:.42rem; color:rgba(255,255,255,.8); line-height:1.4; margin-bottom:4px }
+.mp-drill-boxes { display:flex; gap:2px }
+.mp-drill-box { width:13px; height:13px; border-radius:2px; display:flex; align-items:center; justify-content:center; font-size:.45rem; font-weight:700; color:white }
+.mp-drill-keys { display:grid; grid-template-columns:repeat(9,1fr); gap:1px }
+.mp-drill-key { background:rgba(255,255,255,.12); border-radius:2px; height:9px; display:flex; align-items:center; justify-content:center; font-size:.35rem; color:rgba(255,255,255,.7) }
+
+/* stats */
+.mp-stats-pts { font-family:var(--fd); font-size:1.6rem; font-weight:700; color:white; line-height:1 }
+.mp-stats-sub { font-size:.42rem; color:rgba(255,255,255,.5); margin-bottom:4px }
+.mp-stats-row { display:flex; gap:4px; margin-bottom:4px }
+.mp-stat-box { flex:1; background:rgba(255,255,255,.06); border-radius:3px; padding:3px; text-align:center }
+.mp-stat-val { font-size:.5rem; font-weight:700; color:#22d3ee }
+.mp-stat-lbl { font-size:.36rem; color:rgba(255,255,255,.4) }
+.mp-lvl { display:flex; align-items:center; gap:4px; margin-bottom:4px }
+.mp-lvl-badge { background:#ca8a04; border-radius:3px; padding:2px 5px; font-size:.44rem; font-weight:700; color:white }
+.mp-lvl-bar { flex:1; height:4px; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden }
+.mp-lvl-fill { height:100%; background:linear-gradient(90deg,#f59e0b,#fbbf24); width:70% }
+
+/* features */
+.feat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
+@media(max-width:720px){ .feat-grid { grid-template-columns:repeat(2,1fr) } }
+@media(max-width:440px){ .feat-grid { grid-template-columns:1fr } }
+.fc { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:22px 18px; position:relative; overflow:hidden; transition:border-color .2s, transform .2s }
+.fc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--ca, linear-gradient(90deg,var(--blue),var(--cyan))) }
+.fc:hover { border-color:var(--border2); transform:translateY(-3px) }
+.fc-icon { width:42px; height:42px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:13px; background:var(--ci, rgba(59,130,246,.1)) }
+.fc h3 { font-family:var(--fd); font-size:.95rem; font-weight:700; margin-bottom:6px; color:var(--white) }
+.fc p { font-size:.78rem; line-height:1.65; color:var(--muted) }
+
+/* achievements */
+.achieve-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; max-width:700px; margin:20px auto 0 }
+.achieve-pill { display:flex; align-items:center; gap:7px; padding:7px 13px; border-radius:999px; background:var(--surface); border:1px solid var(--border); font-size:.74rem; font-weight:600; color:var(--muted2) }
+
+/* tabs */
+.tabs-row { display:grid; grid-template-columns:repeat(8,1fr); gap:8px; max-width:860px; margin:0 auto }
+@media(max-width:680px){ .tabs-row { grid-template-columns:repeat(4,1fr) } }
+.tab-tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-sm); padding:14px 7px; text-align:center; transition:border-color .18s, transform .18s }
+.tab-tile:hover { border-color:var(--border2); transform:translateY(-2px) }
+.tab-icon { font-size:1.25rem; margin-bottom:6px }
+.tab-name { font-family:var(--fd); font-size:.68rem; font-weight:700; color:var(--white); margin-bottom:2px }
+.tab-desc { font-size:.56rem; color:var(--muted) }
+
+/* steps */
+.steps-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:760px; margin:0 auto; position:relative }
+.steps-row::before { content:''; position:absolute; top:27px; left:calc(16% + 16px); right:calc(16% + 16px); height:1px; background:linear-gradient(90deg,rgba(59,130,246,.3),rgba(34,211,238,.3)) }
+@media(max-width:560px){ .steps-row { grid-template-columns:1fr } .steps-row::before { display:none } }
+.step { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:22px 16px; text-align:center }
+.step-n { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--blue),#0e7490); color:white; font-family:var(--fd); font-size:1rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; box-shadow:0 0 16px rgba(59,130,246,.25) }
+.step h3 { font-family:var(--fd); font-size:.9rem; font-weight:700; margin-bottom:7px; color:var(--white) }
+.step p { font-size:.78rem; color:var(--muted); line-height:1.65 }
+
+.cta-sec { padding:60px 24px 80px; position:relative; z-index:1 }
+.cta-card { max-width:560px; margin:0 auto; background:var(--surface); border:1px solid rgba(59,130,246,.18); border-radius:var(--r-lg); padding:clamp(32px,6vw,52px) clamp(24px,5vw,44px); text-align:center; box-shadow:0 0 60px rgba(29,78,216,.08); position:relative; overflow:hidden }
+.cta-card::before { content:''; position:absolute; top:-60px; right:-60px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(34,211,238,.05),transparent 65%); pointer-events:none }
+.cta-emoji { font-size:2.8rem; margin-bottom:14px; display:block }
+.cta-card h2 { font-family:var(--fd); font-size:clamp(1.5rem,4.5vw,2rem); font-weight:700; color:var(--white); margin-bottom:10px; line-height:1.15 }
+.cta-card > p { font-size:.86rem; color:var(--muted); line-height:1.75; margin-bottom:26px }
+.cta-note { margin-top:14px; font-size:.68rem; color:rgba(248,250,252,.2); display:flex; align-items:center; justify-content:center; gap:5px }
+
+footer { padding:22px 24px; border-top:1px solid var(--border); text-align:center; font-size:.72rem; color:rgba(248,250,252,.22); position:relative; z-index:1 }
+footer strong { color:rgba(248,250,252,.38) }
+
+.credits-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:680px; margin:0 auto }
+@media(max-width:560px){ .credits-row { grid-template-columns:1fr } }
+.credit-card { display:flex; align-items:center; gap:14px; background:var(--surface); border:1px solid var(--border); border-radius:var(--r-md); padding:18px 16px; transition:border-color .18s, transform .18s }
+.credit-card:hover { border-color:var(--border2); transform:translateY(-2px) }
+.credit-avatar { width:46px; height:46px; border-radius:50%; flex-shrink:0; background:linear-gradient(135deg,#1d4ed8,#0e7490); display:flex; align-items:center; justify-content:center; font-family:var(--fd); font-size:.9rem; font-weight:700; color:white; letter-spacing:.5px; box-shadow:0 0 14px rgba(29,78,216,.2) }
+.credit-name { font-family:var(--fd); font-size:.88rem; font-weight:700; color:var(--white); margin-bottom:3px }
+.credit-role { font-size:.7rem; font-weight:500; color:var(--cyan); letter-spacing:.3px }
+
+.reveal { opacity:0; transform:translateY(20px); transition:opacity .55s ease, transform .55s ease }
+.reveal.in { opacity:1; transform:none }
+.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}
+.divider { max-width:960px; margin:0 auto; height:1px; background:var(--border) }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="bg-lines"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><div class="nav-icon">🧬</div>DigestQ</div>
+  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="nav-cta">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Free Download
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge"><span class="badge-dot"></span>Free Android App · Interactive Learning Module</div>
+  <h1>
+    <span class="h1-sub">Learn the</span>
+    <span class="h1-grad">Digestive</span><br>
+    <span class="h1-italic">System</span>
+  </h1>
+  <p class="hero-desc"><strong>DigestQ</strong> uses models, diagrams, flow charts &amp; simulations to help you understand how digestion works with excretion — earn points as you explore.</p>
+  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn">
+    <div class="dl-icon">🤖</div>
+    <div class="dl-text"><span>Download for Android</span><strong>Free APK · Install Now</strong></div>
+  </a>
+  <div class="hero-meta">
+    <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Android 5.0+</div>
+    <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Works Offline</div>
+    <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>100% Free</div>
+    <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>No Ads</div>
+    <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Earn Points</div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar reveal">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n">9</div><div class="stat-l">Organs in Mock-Up</div></div>
+    <div class="stat"><div class="stat-n">10</div><div class="stat-l">Organs in Model</div></div>
+    <div class="stat"><div class="stat-n">15</div><div class="stat-l">Quiz Questions</div></div>
+    <div class="stat"><div class="stat-n">12</div><div class="stat-l">Drill Words</div></div>
+  </div>
+</section>
+
+<div class="divider" style="margin-top:40px"></div>
+
+<!-- SCREENS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">App Screens</div>
+      <div class="sec-title">8 screens, one focused app</div>
+      <p class="sec-sub">Every tab is a different way to interact with and learn the digestive system.</p>
+    </div>
+  </div>
+  <div class="screens-scroller reveal d1">
+    <div class="screens-row">
+
+      <!-- HOME -->
+      <div class="screen-card">
+        <div class="screen-label">🏠 Home</div>
+        <div class="screen-body sc-home">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab active">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div class="mp-welcome"><span class="mp-robot">🤖</span><div class="mp-wtxt">Welcome to DigestQ!<br>Use models, diagrams &amp; simulations to understand digestion.</div></div>
+              <div class="mp-row"><div class="mp-row-icon" style="background:#7c3aed">🧩</div><div class="mp-row-txt">Organ Mock-Up — Place organs on body</div></div>
+              <div class="mp-row"><div class="mp-row-icon" style="background:#ca8a04">⭐</div><div class="mp-row-txt">Explore Organs — Learn each organ</div></div>
+              <div class="mp-row"><div class="mp-row-icon" style="background:#16a34a">🔄</div><div class="mp-row-txt">Build Flow Chart — Arrange steps</div></div>
+              <div class="mp-row"><div class="mp-row-icon" style="background:#db2777">🔬</div><div class="mp-row-txt">Run Simulation — Step by step</div></div>
+              <div class="mp-row"><div class="mp-row-icon" style="background:#dc2626">❓</div><div class="mp-row-txt">Take a Quiz — 15 questions</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOCK-UP -->
+      <div class="screen-card">
+        <div class="screen-label">🧩 Mock-Up</div>
+        <div class="screen-body sc-mockup">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab active">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><div style="font-size:.5rem;font-weight:700;color:white">🧩 Organ Mock-Up</div><div style="background:#16a34a;border-radius:10px;padding:1px 5px;font-size:.4rem;color:white">+0 pts</div></div>
+              <div style="font-size:.4rem;color:rgba(255,255,255,.6);margin-bottom:4px;background:rgba(255,255,255,.06);border-radius:3px;padding:3px 5px">✋ Drag an organ chip to its slot on the body</div>
+              <div style="display:flex;gap:4px;flex:1;min-height:0">
+                <div style="display:flex;flex-direction:column;gap:2px;width:28%">
+                  <div style="font-size:.36rem;color:rgba(255,165,0,.8);font-weight:700;margin-bottom:1px">TRACT</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🍽️ Esoph.</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🔄 Rectum</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🌀 L.Int.</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">💛 Stomach</div>
+                </div>
+                <div class="mp-body-area" style="flex:1">
+                  <span style="font-size:2.8rem;opacity:.45">🧍</span>
+                  <div class="mp-slot" style="top:15%;left:38%">+</div>
+                  <div class="mp-slot" style="top:32%;left:28%">+</div>
+                  <div class="mp-slot" style="top:45%;left:48%">+</div>
+                  <div class="mp-slot" style="top:58%;left:35%">+</div>
+                  <div class="mp-slot" style="top:72%;left:42%">+</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:2px;width:28%">
+                  <div style="font-size:.36rem;color:rgba(255,165,0,.8);font-weight:700;margin-bottom:1px">ACCESS.</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟤 Liver</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟡 Pancr.</div>
+                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟢 Gallbl.</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:4px;margin-top:4px">
+                <div style="flex:1;background:#b45309;border-radius:3px;padding:2px;font-size:.4rem;font-weight:700;color:white;text-align:center">💡 Hint</div>
+                <div style="flex:1;background:rgba(255,255,255,.1);border-radius:3px;padding:2px;font-size:.4rem;font-weight:700;color:white;text-align:center">↺ Reset</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL -->
+      <div class="screen-card">
+        <div class="screen-label">🧬 Model</div>
+        <div class="screen-body sc-model">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab active">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+                <div style="background:#3b82f6;border-radius:3px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:white">◀</div>
+                <div style="text-align:center"><div style="font-size:.54rem;font-weight:700;color:white">Mouth</div><div style="font-size:.4rem;color:rgba(255,255,255,.5)">1 / 10</div></div>
+                <div style="background:#3b82f6;border-radius:3px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:white">▶</div>
+              </div>
+              <div class="mp-organ-img">👄</div>
+              <div style="background:white;border-radius:5px;padding:5px;flex:1">
+                <div class="mp-organ-title" style="color:#060e24">Mouth (Oral Cavity)</div>
+                <div class="mp-organ-info" style="color:#374151">Where digestion begins. Teeth break down food mechanically while saliva starts chemical digestion of carbohydrates.</div>
+                <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:3px;padding:3px;margin-top:4px;font-size:.38rem;color:#92400e">🔗 Excretory / Accessory Link<br>▶ 3 pairs of salivary glands</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLOW -->
+      <div class="screen-card">
+        <div class="screen-label">🔄 Flow</div>
+        <div class="screen-body sc-flow">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab active">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div style="font-size:.5rem;font-weight:700;color:white;margin-bottom:3px">Digestive → Excretory Flow</div>
+              <div class="mp-flow-cols">
+                <div class="mp-flow-left">
+                  <div style="font-size:.38rem;color:#ef4444;font-weight:700;margin-bottom:2px">🔀 SCRAMBLED</div>
+                  <div class="mp-block">♻️ Waste Formation</div>
+                  <div class="mp-block">💧 Absorption</div>
+                  <div class="mp-block">🚽 Excretion</div>
+                  <div class="mp-block">🍎 Food Intake</div>
+                  <div class="mp-block">⚡ Nutrient Use</div>
+                  <div class="mp-block">🦷 Breakdown</div>
+                </div>
+                <div class="mp-flow-right"><div class="mp-flow-hint">YOUR FLOW<br><br>Tap or drag blocks to build your flow!</div></div>
+              </div>
+              <div style="display:flex;gap:3px;margin-top:4px">
+                <div style="flex:1.2;background:#16a34a;border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">✓ Validate</div>
+                <div style="flex:1;background:rgba(255,255,255,.1);border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">↺ Clear</div>
+                <div style="flex:1;background:#b45309;border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">💡 Hint</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIM -->
+      <div class="screen-card">
+        <div class="screen-label">🔬 Sim</div>
+        <div class="screen-body sc-sim">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab active">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+                <div style="font-size:.5rem;font-weight:700;color:white">🔬 Digestive Simulation</div>
+                <div style="background:rgba(59,130,246,.2);border:1px solid #3b82f6;border-radius:10px;padding:1px 5px;font-size:.38rem;color:#60a5fa">1 / 11</div>
+              </div>
+              <div class="mp-sim-screen">🎬<br><span style="font-size:.5rem;color:rgba(255,255,255,.6)">Tap ▶ Start</span></div>
+              <div style="background:rgba(255,255,255,.06);border-radius:4px;padding:4px;margin-bottom:4px">
+                <div style="font-size:.44rem;font-weight:700;color:white;margin-bottom:1px">Ready to start</div>
+                <div class="mp-sim-info">Press Start to watch each organ step by step.</div>
+                <div style="font-size:.38rem;color:#fbbf24">💡 A new video clip plays every 4 seconds</div>
+              </div>
+              <div style="font-size:.38rem;color:rgba(255,255,255,.4);margin-bottom:3px">Progress — 0%</div>
+              <div style="display:flex;gap:3px;margin-bottom:4px">
+                <span style="font-size:.7rem">🍎</span><span style="font-size:.7rem">🌀</span><span style="font-size:.7rem">🧪</span><span style="font-size:.7rem">❤️</span><span style="font-size:.7rem">🤲</span><span style="font-size:.7rem">🫁</span><span style="font-size:.7rem">🌿</span><span style="font-size:.7rem">🔄</span>
+              </div>
+              <div class="mp-sim-btn">▶ Start Simulation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="screen-card">
+        <div class="screen-label">❓ Quiz</div>
+        <div class="screen-body sc-quiz">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab active">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div style="font-size:.52rem;font-weight:700;color:#1e293b;margin-bottom:3px">❓ Knowledge Check</div>
+              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:4px;margin-bottom:4px;font-size:.4rem;color:#1e40af;line-height:1.4">💡 <b>Recall:</b> The mouth performs both mechanical digestion (chewing) and chemical digestion (salivary amylase on starch).</div>
+              <div class="mp-quiz-wrap">
+                <div class="mp-q-label">QUESTION 1 OF 15 &nbsp; 1/15</div>
+                <div class="mp-q-text">Where does digestion first begin in the body?</div>
+                <div class="mp-opt"><div class="mp-opt-l">A</div>Stomach</div>
+                <div class="mp-opt"><div class="mp-opt-l">B</div>Esophagus</div>
+                <div class="mp-opt correct"><div class="mp-opt-l">C</div>Mouth ✅</div>
+                <div class="mp-opt"><div class="mp-opt-l">D</div>Small Intestine</div>
+                <div style="background:#e5e7eb;border-radius:3px;padding:3px;text-align:center;font-size:.4rem;color:#6b7280;margin-top:3px">Select an answer to continue</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRILL -->
+      <div class="screen-card">
+        <div class="screen-label">✏️ Drill</div>
+        <div class="screen-body sc-drill">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab active">✏️</div><div class="mp-tab">📊</div></div>
+            <div class="mp-content">
+              <div class="mp-drill-header"><div class="mp-drill-title">⚡ DRILL</div><div class="mp-drill-sub">WORD COMPLETION</div></div>
+              <div style="font-size:.38rem;color:rgba(255,255,255,.5);margin-bottom:2px;text-align:center">Complete all letters to unlock the next word.</div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><div style="background:#16a34a;height:3px;border-radius:2px;width:8%"></div><div style="font-size:.4rem;color:rgba(255,255,255,.5)">1 / 12</div></div>
+              <div class="mp-drill-card">
+                <div class="mp-drill-clue">The process of breaking down food into smaller molecules that the body can absorb and use for energy.</div>
+                <div style="font-size:.38rem;color:rgba(255,255,255,.5);margin-bottom:3px">YOUR ANSWER</div>
+                <div class="mp-drill-boxes">
+                  <div class="mp-drill-box" style="background:#1d4ed8">D</div>
+                  <div class="mp-drill-box" style="background:rgba(255,255,255,.1);border:1px solid #3b82f6"></div>
+                  <div class="mp-drill-box" style="background:rgba(255,255,255,.08)"></div>
+                  <div class="mp-drill-box" style="background:rgba(255,255,255,.08)"></div>
+                  <div class="mp-drill-box" style="background:#1d4ed8">S</div>
+                  <div class="mp-drill-box" style="background:#1d4ed8">T</div>
+                </div>
+              </div>
+              <div style="font-size:.38rem;color:rgba(255,255,255,.4);margin-bottom:2px">TAP A LETTER</div>
+              <div class="mp-drill-keys">
+                <div class="mp-drill-key">A</div><div class="mp-drill-key">B</div><div class="mp-drill-key">C</div><div class="mp-drill-key">D</div><div class="mp-drill-key">E</div><div class="mp-drill-key">F</div><div class="mp-drill-key">G</div><div class="mp-drill-key">H</div><div class="mp-drill-key">I</div>
+                <div class="mp-drill-key">J</div><div class="mp-drill-key">K</div><div class="mp-drill-key">L</div><div class="mp-drill-key">M</div><div class="mp-drill-key">N</div><div class="mp-drill-key">O</div><div class="mp-drill-key">P</div><div class="mp-drill-key">Q</div><div class="mp-drill-key">R</div>
+                <div class="mp-drill-key">S</div><div class="mp-drill-key">T</div><div class="mp-drill-key">U</div><div class="mp-drill-key">V</div><div class="mp-drill-key">W</div><div class="mp-drill-key">X</div><div class="mp-drill-key">Y</div><div class="mp-drill-key">Z</div><div class="mp-drill-key" style="background:#dc2626;color:white">⌫</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="screen-card">
+        <div class="screen-label">📊 Stats</div>
+        <div class="screen-body sc-stats">
+          <div class="mini-phone">
+            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
+            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab active">📊</div></div>
+            <div class="mp-content">
+              <div style="background:rgba(255,255,255,.06);border-radius:4px;padding:4px;margin-bottom:4px;display:flex;align-items:center;gap:6px">
+                <div style="font-size:.9rem">👤</div>
+                <div style="font-size:.5rem;color:white;font-weight:600;flex:1">PLAYER<br><span style="font-size:.44rem;font-weight:400">name</span></div>
+                <div style="background:rgba(59,130,246,.2);border:1px solid #3b82f6;border-radius:10px;padding:1px 5px;font-size:.38rem;color:#60a5fa">✏️ Change</div>
+              </div>
+              <div style="background:#0d1f3c;border-radius:4px;padding:5px;margin-bottom:4px">
+                <div style="display:flex;justify-content:space-between;align-items:start">
+                  <div><div style="font-size:.4rem;color:rgba(255,255,255,.5);letter-spacing:.5px">YOUR PROGRESS</div><div class="mp-stats-pts">590</div><div class="mp-stats-sub">points earned</div></div>
+                  <div style="background:#dc2626;border-radius:10px;padding:2px 6px;font-size:.4rem;font-weight:700;color:white">🧬 Biologist</div>
+                </div>
+                <div class="mp-lvl"><div class="mp-lvl-badge">LVL 6</div><div class="mp-lvl-bar"><div class="mp-lvl-fill"></div></div><div style="font-size:.4rem;color:rgba(255,255,255,.4)">10 to next</div></div>
+                <div class="mp-stats-row">
+                  <div class="mp-stat-box"><div class="mp-stat-val">0%</div><div class="mp-stat-lbl">Accuracy</div></div>
+                  <div class="mp-stat-box"><div class="mp-stat-val">0</div><div class="mp-stat-lbl">Activities</div></div>
+                  <div class="mp-stat-box"><div class="mp-stat-val">0%</div><div class="mp-stat-lbl">Mastery</div></div>
+                </div>
+              </div>
+              <div style="font-size:.4rem;color:rgba(255,255,255,.4);margin-bottom:3px;letter-spacing:.5px">ACHIEVEMENTS</div>
+              <div style="display:flex;gap:3px">
+                <div style="flex:1;background:rgba(255,255,255,.06);border:1px solid #16a34a;border-radius:3px;padding:3px;text-align:center"><div style="font-size:.7rem">🌱</div><div style="font-size:.34rem;color:#16a34a">First Steps</div></div>
+                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">🔬</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Scientist</div></div>
+                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">✏️</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Wordsmith</div></div>
+                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">📚</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Bookworm</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURES -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">Features</div>
+      <div class="sec-title">Everything to master digestion</div>
+      <p class="sec-sub">Six interactive learning activities plus progress tracking and achievements.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="fc reveal d1" style="--ca:linear-gradient(90deg,#7c3aed,#3b82f6);--ci:rgba(124,58,237,.1)">
+        <div class="fc-icon">🧩</div>
+        <h3>Organ Mock-Up</h3>
+        <p>Drag organ chips onto the correct body slots. Place all 9 organs — including both tract and accessory organs — to earn points. Hints available.</p>
+      </div>
+      <div class="fc reveal d2" style="--ca:linear-gradient(90deg,#3b82f6,#22d3ee);--ci:rgba(59,130,246,.1)">
+        <div class="fc-icon">🧬</div>
+        <h3>Interactive Model</h3>
+        <p>Navigate through all 10 digestive organs with real anatomy images, detailed descriptions, and excretory/accessory links for each organ.</p>
+      </div>
+      <div class="fc reveal d3" style="--ca:linear-gradient(90deg,#16a34a,#2dd4bf);--ci:rgba(22,163,74,.1)">
+        <div class="fc-icon">🔄</div>
+        <h3>Flow Chart Builder</h3>
+        <p>Scrambled digestive steps — tap them in the correct order to build the Digestive → Excretory flow, then validate your answer instantly.</p>
+      </div>
+      <div class="fc reveal d4" style="--ca:linear-gradient(90deg,#db2777,#f59e0b);--ci:rgba(219,39,119,.1)">
+        <div class="fc-icon">🔬</div>
+        <h3>Digestive Simulation</h3>
+        <p>Watch digestion unfold across 11 stages. Each organ plays a 4-second video clip in sequence, with full progress tracking.</p>
+      </div>
+      <div class="fc reveal d5" style="--ca:linear-gradient(90deg,#f59e0b,#fbbf24);--ci:rgba(245,158,11,.1)">
+        <div class="fc-icon">❓</div>
+        <h3>Knowledge Quiz</h3>
+        <p>15 questions with recall hints before each one. Multiple choice with instant feedback — including image-based identification questions.</p>
+      </div>
+      <div class="fc reveal d6" style="--ca:linear-gradient(90deg,#22d3ee,#3b82f6);--ci:rgba(34,211,238,.1)">
+        <div class="fc-icon">✏️</div>
+        <h3>Word Drill</h3>
+        <p>Spell 12 key digestive terms letter-by-letter on an on-screen keyboard. Complete each word to unlock the next — you can't go back.</p>
+      </div>
+    </div>
+
+    <div class="achieve-row reveal d3" style="margin-top:36px">
+      <div class="achieve-pill">🌱 First Steps</div>
+      <div class="achieve-pill">🔬 Scientist</div>
+      <div class="achieve-pill">✏️ Wordsmith</div>
+      <div class="achieve-pill">📚 Bookworm</div>
+      <div class="achieve-pill">🎯 Sharpshooter</div>
+      <div class="achieve-pill">🧬 Biologist</div>
+    </div>
+    <p style="text-align:center;font-size:.74rem;color:var(--muted);margin-top:10px">Unlock achievements and level up as you complete each activity</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TABS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">8 Tabs</div>
+      <div class="sec-title">One app, complete coverage</div>
+    </div>
+    <div class="tabs-row reveal">
+      <div class="tab-tile"><div class="tab-icon">🏠</div><div class="tab-name">Home</div><div class="tab-desc">Quick nav</div></div>
+      <div class="tab-tile"><div class="tab-icon">🧩</div><div class="tab-name">Mock-Up</div><div class="tab-desc">9 organs</div></div>
+      <div class="tab-tile"><div class="tab-icon">🧬</div><div class="tab-name">Model</div><div class="tab-desc">10 organs</div></div>
+      <div class="tab-tile"><div class="tab-icon">🔄</div><div class="tab-name">Flow</div><div class="tab-desc">Tap in order</div></div>
+      <div class="tab-tile"><div class="tab-icon">🔬</div><div class="tab-name">Sim</div><div class="tab-desc">11 stages</div></div>
+      <div class="tab-tile"><div class="tab-icon">❓</div><div class="tab-name">Quiz</div><div class="tab-desc">15 questions</div></div>
+      <div class="tab-tile"><div class="tab-icon">✏️</div><div class="tab-name">Drill</div><div class="tab-desc">12 words</div></div>
+      <div class="tab-tile"><div class="tab-icon">📊</div><div class="tab-name">Stats</div><div class="tab-desc">Progress</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STEPS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-label">How It Works</div>
+      <div class="sec-title">Up and learning in 3 steps</div>
+    </div>
+    <div class="steps-row">
+      <div class="step reveal d1">
+        <div class="step-n">1</div>
+        <h3>Download the APK</h3>
+        <p>Tap the button and the free APK downloads directly to your Android device. No account required.</p>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-n">2</div>
+        <h3>Install &amp; Open</h3>
+        <p>Allow installs from unknown sources in settings, then install and launch DigestQ.</p>
+      </div>
+      <div class="step reveal d3">
+        <div class="step-n">3</div>
+        <h3>Start Learning</h3>
+        <p>Explore all 8 tabs, earn points, unlock achievements, and master the digestive system at your own pace.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-card reveal">
+    <span class="cta-emoji">🧬</span>
+    <h2>Ready to learn digestion?</h2>
+    <p>No sign-up. No ads. No internet needed after install.<br>Just download and start learning.</p>
+    <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn" style="margin:0 auto">
+      <div class="dl-icon">🤖</div>
+      <div class="dl-text"><span>Free for Android</span><strong>Download APK Now</strong></div>
+    </a>
+    <p class="cta-note">ℹ Enable "Install from unknown sources" in Android settings before installing</p>
+  </div>
+</section>
+
+<!-- CREDITS -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="divider" style="margin-bottom:60px"></div>
+    <div class="sec-head reveal">
+      <div class="sec-label">Credits</div>
+      <div class="sec-title">Meet the Team</div>
+      <p class="sec-sub">The researchers and developers behind DigestQ.</p>
+    </div>
+    <div class="credits-row reveal">
+      <div class="credit-card">
+        <div class="credit-avatar">BL</div>
+        <div class="credit-info"><div class="credit-name">Bina Letecia Daal</div><div class="credit-role">Researcher &amp; Developer</div></div>
+      </div>
+      <div class="credit-card">
+        <div class="credit-avatar" style="background:linear-gradient(135deg,#0e7490,#2dd4bf)">EM</div>
+        <div class="credit-info"><div class="credit-name">Erian Mondido</div><div class="credit-role">Researcher &amp; Developer</div></div>
+      </div>
+      <div class="credit-card">
+        <div class="credit-avatar" style="background:linear-gradient(135deg,#7c3aed,#3b82f6)">FR</div>
+        <div class="credit-info"><div class="credit-name">Fernanbryl Rabadon</div><div class="credit-role">Researcher &amp; Developer</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Made with ❤️ for biology learners &nbsp;·&nbsp; <strong>DigestQ</strong> &nbsp;·&nbsp; Free forever</p>
+</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } })
+}, { threshold: 0.06 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
