@@ -58,7 +58,7 @@ nav {
 }
 .nav-logo { display:flex; align-items:center; gap:10px; font-family:var(--fd); font-weight:700; font-size:1.05rem; color:var(--white) }
 .nav-icon { width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,#1d4ed8,#0e7490); display:flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0 }
-.nav-cta { display:inline-flex; align-items:center; gap:7px; background:var(--blue); color:white; padding:8px 16px; border-radius:var(--r-sm); font-family:var(--fb); font-weight:600; font-size:.8rem; letter-spacing:.1px; transition:background .18s }
+.nav-cta { display:inline-flex; align-items:center; gap:7px; background:var(--blue); color:white; padding:8px 16px; border-radius:var(--r-sm); font-family:var(--fb); font-weight:600; font-size:.8rem; letter-spacing:.1px; transition:background .18s; border:none; cursor:pointer }
 .nav-cta:hover { background:#2563eb }
 .nav-cta svg { flex-shrink:0 }
 
@@ -72,7 +72,7 @@ nav {
 .hero-desc { font-size:clamp(.9rem,2.5vw,1.05rem); font-weight:400; color:var(--muted); max-width:440px; margin:24px auto 36px; line-height:1.75 }
 .hero-desc strong { color:var(--muted2); font-weight:600 }
 
-.dl-btn { display:inline-flex; align-items:center; gap:14px; background:linear-gradient(135deg,#1d4ed8,#0e7490); color:white; padding:14px 22px; border-radius:var(--r-md); font-family:var(--fb); font-weight:600; font-size:.9rem; box-shadow:0 4px 24px rgba(29,78,216,.3), inset 0 1px 0 rgba(255,255,255,.08); transition:transform .18s, box-shadow .18s }
+.dl-btn { display:inline-flex; align-items:center; gap:14px; background:linear-gradient(135deg,#1d4ed8,#0e7490); color:white; padding:14px 22px; border-radius:var(--r-md); font-family:var(--fb); font-weight:600; font-size:.9rem; box-shadow:0 4px 24px rgba(29,78,216,.3), inset 0 1px 0 rgba(255,255,255,.08); transition:transform .18s, box-shadow .18s; border:none; cursor:pointer }
 .dl-btn:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(29,78,216,.38), inset 0 1px 0 rgba(255,255,255,.08) }
 .dl-btn:active { transform:translateY(0) }
 .dl-icon { width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.13); display:flex; align-items:center; justify-content:center; font-size:1.15rem; flex-shrink:0 }
@@ -248,19 +248,53 @@ footer strong { color:rgba(248,250,252,.38) }
 .reveal.in { opacity:1; transform:none }
 .d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}.d4{transition-delay:.28s}.d5{transition-delay:.35s}.d6{transition-delay:.42s}
 .divider { max-width:960px; margin:0 auto; height:1px; background:var(--border) }
+
+/* Toast notification */
+.toast-download {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--blue);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast-download.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast-download i {
+  font-size: 1.2rem;
+}
 </style>
 </head>
 <body>
 <div class="bg"></div>
 <div class="bg-lines"></div>
 
+<!-- ========== TOAST NOTIFICATION ========== -->
+<div class="toast-download" id="downloadToast">
+  <i class="fas fa-check-circle" style="font-family: 'Font Awesome 6 Free'; font-weight: 900;"></i>
+  Download started!
+</div>
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo"><div class="nav-icon">🧬</div>DigestQ</div>
-  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="nav-cta">
+  <button onclick="downloadAPK()" class="nav-cta" id="navDownloadBtn">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Free Download
-  </a>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -272,10 +306,10 @@ footer strong { color:rgba(248,250,252,.38) }
     <span class="h1-italic">System</span>
   </h1>
   <p class="hero-desc"><strong>DigestQ</strong> uses models, diagrams, flow charts &amp; simulations to help you understand how digestion works with excretion — earn points as you explore.</p>
-  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn">
+  <button onclick="downloadAPK()" class="dl-btn" id="heroDownloadBtn">
     <div class="dl-icon">🤖</div>
     <div class="dl-text"><span>Download for Android</span><strong>Free APK · Install Now</strong></div>
-  </a>
+  </button>
   <div class="hero-meta">
     <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Android 5.0+</div>
     <div class="meta-pill"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Works Offline</div>
@@ -664,10 +698,10 @@ footer strong { color:rgba(248,250,252,.38) }
     <span class="cta-emoji">🧬</span>
     <h2>Ready to learn digestion?</h2>
     <p>No sign-up. No ads. No internet needed after install.<br>Just download and start learning.</p>
-    <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn" style="margin:0 auto">
+    <button onclick="downloadAPK()" class="dl-btn" style="margin:0 auto" id="ctaDownloadBtn">
       <div class="dl-icon">🤖</div>
       <div class="dl-text"><span>Free for Android</span><strong>Download APK Now</strong></div>
-    </a>
+    </button>
     <p class="cta-note">ℹ Enable "Install from unknown sources" in Android settings before installing</p>
   </div>
 </section>
@@ -703,10 +737,54 @@ footer strong { color:rgba(248,250,252,.38) }
 </footer>
 
 <script>
+// Intersection Observer for reveal animations
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) } })
 }, { threshold: 0.06 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ========== FORCE DOWNLOAD FUNCTION (Works on ALL browsers including Brave) ==========
+function downloadAPK() {
+  // Show toast notification
+  const toast = document.getElementById('downloadToast');
+  toast.classList.add('show');
+  
+  // Hide toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+
+  // The APK file path - change if your file is in a different location
+  const apkUrl = 'download/digestqvl.apk';
+  
+  // Method 1: Try using fetch (most reliable)
+  fetch(apkUrl)
+    .then(response => response.blob())
+    .then(blob => {
+      // Create a blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // Create download link
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = 'DigestQ.apk';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up
+      window.URL.revokeObjectURL(blobUrl);
+    })
+    .catch(() => {
+      // Fallback: Use direct link if fetch fails
+      const link = document.createElement('a');
+      link.href = apkUrl;
+      link.download = 'DigestQ.apk';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+}
 </script>
 </body>
 </html>
