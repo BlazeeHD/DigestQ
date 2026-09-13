@@ -110,6 +110,7 @@ nav {
 .screen-card:hover { border-color:var(--border2); transform:translateY(-4px) }
 .screen-label { padding:8px 12px; font-family:var(--fd); font-size:.72rem; font-weight:700; color:var(--muted2); background:var(--surf2); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px }
 .screen-body { height:clamp(230px,42vw,290px); display:flex; align-items:stretch }
+.screen-img { width:100%; height:100%; object-fit:cover; object-position:top center; display:block }
 .sc-home   { background:linear-gradient(160deg,#0a1628,#0d2040) }
 .sc-mockup { background:linear-gradient(160deg,#0d1a2e,#1a0d2e) }
 .sc-model  { background:linear-gradient(160deg,#0a1628,#0a2040) }
@@ -257,7 +258,7 @@ footer strong { color:rgba(248,250,252,.38) }
 <!-- NAV -->
 <nav>
   <div class="nav-logo"><div class="nav-icon">🧬</div>DigestQ</div>
-  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="nav-cta">
+  <a href="https://drive.google.com/uc?export=download&id=1csWx5KXt0fWdjsNxgbZx-EmKKvYLGcVn" download="DigestQ.apk" class="nav-cta">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     Free Download
   </a>
@@ -272,7 +273,7 @@ footer strong { color:rgba(248,250,252,.38) }
     <span class="h1-italic">System</span>
   </h1>
   <p class="hero-desc"><strong>DigestQ</strong> uses models, diagrams, flow charts &amp; simulations to help you understand how digestion works with excretion — earn points as you explore.</p>
-  <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn">
+  <a href="https://drive.google.com/uc?export=download&id=1csWx5KXt0fWdjsNxgbZx-EmKKvYLGcVn" download="DigestQ.apk" class="dl-btn">
     <div class="dl-icon">🤖</div>
     <div class="dl-text"><span>Download for Android</span><strong>Free APK · Install Now</strong></div>
   </a>
@@ -291,7 +292,7 @@ footer strong { color:rgba(248,250,252,.38) }
     <div class="stat"><div class="stat-n">9</div><div class="stat-l">Organs in Mock-Up</div></div>
     <div class="stat"><div class="stat-n">10</div><div class="stat-l">Organs in Model</div></div>
     <div class="stat"><div class="stat-n">15</div><div class="stat-l">Quiz Questions</div></div>
-    <div class="stat"><div class="stat-n">12</div><div class="stat-l">Drill Words</div></div>
+    <div class="stat"><div class="stat-n">15</div><div class="stat-l">Drill Words</div></div>
   </div>
 </section>
 
@@ -313,18 +314,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">🏠 Home</div>
         <div class="screen-body sc-home">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab active">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div class="mp-welcome"><span class="mp-robot">🤖</span><div class="mp-wtxt">Welcome to DigestQ!<br>Use models, diagrams &amp; simulations to understand digestion.</div></div>
-              <div class="mp-row"><div class="mp-row-icon" style="background:#7c3aed">🧩</div><div class="mp-row-txt">Organ Mock-Up — Place organs on body</div></div>
-              <div class="mp-row"><div class="mp-row-icon" style="background:#ca8a04">⭐</div><div class="mp-row-txt">Explore Organs — Learn each organ</div></div>
-              <div class="mp-row"><div class="mp-row-icon" style="background:#16a34a">🔄</div><div class="mp-row-txt">Build Flow Chart — Arrange steps</div></div>
-              <div class="mp-row"><div class="mp-row-icon" style="background:#db2777">🔬</div><div class="mp-row-txt">Run Simulation — Step by step</div></div>
-              <div class="mp-row"><div class="mp-row-icon" style="background:#dc2626">❓</div><div class="mp-row-txt">Take a Quiz — 15 questions</div></div>
-            </div>
-          </div>
+          <img src="../images/1.jpg" alt="DigestQ Home screen" class="screen-img">
         </div>
       </div>
 
@@ -332,41 +322,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">🧩 Mock-Up</div>
         <div class="screen-body sc-mockup">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab active">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><div style="font-size:.5rem;font-weight:700;color:white">🧩 Organ Mock-Up</div><div style="background:#16a34a;border-radius:10px;padding:1px 5px;font-size:.4rem;color:white">+0 pts</div></div>
-              <div style="font-size:.4rem;color:rgba(255,255,255,.6);margin-bottom:4px;background:rgba(255,255,255,.06);border-radius:3px;padding:3px 5px">✋ Drag an organ chip to its slot on the body</div>
-              <div style="display:flex;gap:4px;flex:1;min-height:0">
-                <div style="display:flex;flex-direction:column;gap:2px;width:28%">
-                  <div style="font-size:.36rem;color:rgba(255,165,0,.8);font-weight:700;margin-bottom:1px">TRACT</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🍽️ Esoph.</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🔄 Rectum</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🌀 L.Int.</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">💛 Stomach</div>
-                </div>
-                <div class="mp-body-area" style="flex:1">
-                  <span style="font-size:2.8rem;opacity:.45">🧍</span>
-                  <div class="mp-slot" style="top:15%;left:38%">+</div>
-                  <div class="mp-slot" style="top:32%;left:28%">+</div>
-                  <div class="mp-slot" style="top:45%;left:48%">+</div>
-                  <div class="mp-slot" style="top:58%;left:35%">+</div>
-                  <div class="mp-slot" style="top:72%;left:42%">+</div>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:2px;width:28%">
-                  <div style="font-size:.36rem;color:rgba(255,165,0,.8);font-weight:700;margin-bottom:1px">ACCESS.</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟤 Liver</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟡 Pancr.</div>
-                  <div style="background:rgba(255,255,255,.08);border-radius:3px;padding:2px 3px;font-size:.35rem;color:rgba(255,255,255,.8)">🟢 Gallbl.</div>
-                </div>
-              </div>
-              <div style="display:flex;gap:4px;margin-top:4px">
-                <div style="flex:1;background:#b45309;border-radius:3px;padding:2px;font-size:.4rem;font-weight:700;color:white;text-align:center">💡 Hint</div>
-                <div style="flex:1;background:rgba(255,255,255,.1);border-radius:3px;padding:2px;font-size:.4rem;font-weight:700;color:white;text-align:center">↺ Reset</div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/2.jpg" alt="DigestQ Organ Mock-Up screen" class="screen-img">
         </div>
       </div>
 
@@ -374,23 +330,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">🧬 Model</div>
         <div class="screen-body sc-model">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab active">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <div style="background:#3b82f6;border-radius:3px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:white">◀</div>
-                <div style="text-align:center"><div style="font-size:.54rem;font-weight:700;color:white">Mouth</div><div style="font-size:.4rem;color:rgba(255,255,255,.5)">1 / 10</div></div>
-                <div style="background:#3b82f6;border-radius:3px;width:16px;height:16px;display:flex;align-items:center;justify-content:center;font-size:.5rem;color:white">▶</div>
-              </div>
-              <div class="mp-organ-img">👄</div>
-              <div style="background:white;border-radius:5px;padding:5px;flex:1">
-                <div class="mp-organ-title" style="color:#060e24">Mouth (Oral Cavity)</div>
-                <div class="mp-organ-info" style="color:#374151">Where digestion begins. Teeth break down food mechanically while saliva starts chemical digestion of carbohydrates.</div>
-                <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:3px;padding:3px;margin-top:4px;font-size:.38rem;color:#92400e">🔗 Excretory / Accessory Link<br>▶ 3 pairs of salivary glands</div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/3.jpg" alt="DigestQ Interactive Model screen" class="screen-img">
         </div>
       </div>
 
@@ -398,30 +338,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">🔄 Flow</div>
         <div class="screen-body sc-flow">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab active">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div style="font-size:.5rem;font-weight:700;color:white;margin-bottom:3px">Digestive → Excretory Flow</div>
-              <div class="mp-flow-cols">
-                <div class="mp-flow-left">
-                  <div style="font-size:.38rem;color:#ef4444;font-weight:700;margin-bottom:2px">🔀 SCRAMBLED</div>
-                  <div class="mp-block">♻️ Waste Formation</div>
-                  <div class="mp-block">💧 Absorption</div>
-                  <div class="mp-block">🚽 Excretion</div>
-                  <div class="mp-block">🍎 Food Intake</div>
-                  <div class="mp-block">⚡ Nutrient Use</div>
-                  <div class="mp-block">🦷 Breakdown</div>
-                </div>
-                <div class="mp-flow-right"><div class="mp-flow-hint">YOUR FLOW<br><br>Tap or drag blocks to build your flow!</div></div>
-              </div>
-              <div style="display:flex;gap:3px;margin-top:4px">
-                <div style="flex:1.2;background:#16a34a;border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">✓ Validate</div>
-                <div style="flex:1;background:rgba(255,255,255,.1);border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">↺ Clear</div>
-                <div style="flex:1;background:#b45309;border-radius:3px;padding:2px;text-align:center;font-size:.4rem;font-weight:700;color:white">💡 Hint</div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/4.jpg" alt="DigestQ Flow Chart Builder screen" class="screen-img">
         </div>
       </div>
 
@@ -429,27 +346,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">🔬 Sim</div>
         <div class="screen-body sc-sim">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab active">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-                <div style="font-size:.5rem;font-weight:700;color:white">🔬 Digestive Simulation</div>
-                <div style="background:rgba(59,130,246,.2);border:1px solid #3b82f6;border-radius:10px;padding:1px 5px;font-size:.38rem;color:#60a5fa">1 / 11</div>
-              </div>
-              <div class="mp-sim-screen">🎬<br><span style="font-size:.5rem;color:rgba(255,255,255,.6)">Tap ▶ Start</span></div>
-              <div style="background:rgba(255,255,255,.06);border-radius:4px;padding:4px;margin-bottom:4px">
-                <div style="font-size:.44rem;font-weight:700;color:white;margin-bottom:1px">Ready to start</div>
-                <div class="mp-sim-info">Press Start to watch each organ step by step.</div>
-                <div style="font-size:.38rem;color:#fbbf24">💡 A new video clip plays every 4 seconds</div>
-              </div>
-              <div style="font-size:.38rem;color:rgba(255,255,255,.4);margin-bottom:3px">Progress — 0%</div>
-              <div style="display:flex;gap:3px;margin-bottom:4px">
-                <span style="font-size:.7rem">🍎</span><span style="font-size:.7rem">🌀</span><span style="font-size:.7rem">🧪</span><span style="font-size:.7rem">❤️</span><span style="font-size:.7rem">🤲</span><span style="font-size:.7rem">🫁</span><span style="font-size:.7rem">🌿</span><span style="font-size:.7rem">🔄</span>
-              </div>
-              <div class="mp-sim-btn">▶ Start Simulation</div>
-            </div>
-          </div>
+          <img src="../images/5.jpg" alt="DigestQ Digestive Simulation screen" class="screen-img">
         </div>
       </div>
 
@@ -457,23 +354,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">❓ Quiz</div>
         <div class="screen-body sc-quiz">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab active">❓</div><div class="mp-tab">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div style="font-size:.52rem;font-weight:700;color:#1e293b;margin-bottom:3px">❓ Knowledge Check</div>
-              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:4px;margin-bottom:4px;font-size:.4rem;color:#1e40af;line-height:1.4">💡 <b>Recall:</b> The mouth performs both mechanical digestion (chewing) and chemical digestion (salivary amylase on starch).</div>
-              <div class="mp-quiz-wrap">
-                <div class="mp-q-label">QUESTION 1 OF 15 &nbsp; 1/15</div>
-                <div class="mp-q-text">Where does digestion first begin in the body?</div>
-                <div class="mp-opt"><div class="mp-opt-l">A</div>Stomach</div>
-                <div class="mp-opt"><div class="mp-opt-l">B</div>Esophagus</div>
-                <div class="mp-opt correct"><div class="mp-opt-l">C</div>Mouth ✅</div>
-                <div class="mp-opt"><div class="mp-opt-l">D</div>Small Intestine</div>
-                <div style="background:#e5e7eb;border-radius:3px;padding:3px;text-align:center;font-size:.4rem;color:#6b7280;margin-top:3px">Select an answer to continue</div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/6.jpg" alt="DigestQ Quiz screen" class="screen-img">
         </div>
       </div>
 
@@ -481,33 +362,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">✏️ Drill</div>
         <div class="screen-body sc-drill">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab active">✏️</div><div class="mp-tab">📊</div></div>
-            <div class="mp-content">
-              <div class="mp-drill-header"><div class="mp-drill-title">⚡ DRILL</div><div class="mp-drill-sub">WORD COMPLETION</div></div>
-              <div style="font-size:.38rem;color:rgba(255,255,255,.5);margin-bottom:2px;text-align:center">Complete all letters to unlock the next word.</div>
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px"><div style="background:#16a34a;height:3px;border-radius:2px;width:8%"></div><div style="font-size:.4rem;color:rgba(255,255,255,.5)">1 / 12</div></div>
-              <div class="mp-drill-card">
-                <div class="mp-drill-clue">The process of breaking down food into smaller molecules that the body can absorb and use for energy.</div>
-                <div style="font-size:.38rem;color:rgba(255,255,255,.5);margin-bottom:3px">YOUR ANSWER</div>
-                <div class="mp-drill-boxes">
-                  <div class="mp-drill-box" style="background:#1d4ed8">D</div>
-                  <div class="mp-drill-box" style="background:rgba(255,255,255,.1);border:1px solid #3b82f6"></div>
-                  <div class="mp-drill-box" style="background:rgba(255,255,255,.08)"></div>
-                  <div class="mp-drill-box" style="background:rgba(255,255,255,.08)"></div>
-                  <div class="mp-drill-box" style="background:#1d4ed8">S</div>
-                  <div class="mp-drill-box" style="background:#1d4ed8">T</div>
-                </div>
-              </div>
-              <div style="font-size:.38rem;color:rgba(255,255,255,.4);margin-bottom:2px">TAP A LETTER</div>
-              <div class="mp-drill-keys">
-                <div class="mp-drill-key">A</div><div class="mp-drill-key">B</div><div class="mp-drill-key">C</div><div class="mp-drill-key">D</div><div class="mp-drill-key">E</div><div class="mp-drill-key">F</div><div class="mp-drill-key">G</div><div class="mp-drill-key">H</div><div class="mp-drill-key">I</div>
-                <div class="mp-drill-key">J</div><div class="mp-drill-key">K</div><div class="mp-drill-key">L</div><div class="mp-drill-key">M</div><div class="mp-drill-key">N</div><div class="mp-drill-key">O</div><div class="mp-drill-key">P</div><div class="mp-drill-key">Q</div><div class="mp-drill-key">R</div>
-                <div class="mp-drill-key">S</div><div class="mp-drill-key">T</div><div class="mp-drill-key">U</div><div class="mp-drill-key">V</div><div class="mp-drill-key">W</div><div class="mp-drill-key">X</div><div class="mp-drill-key">Y</div><div class="mp-drill-key">Z</div><div class="mp-drill-key" style="background:#dc2626;color:white">⌫</div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/7.jpg" alt="DigestQ Word Drill screen" class="screen-img">
         </div>
       </div>
 
@@ -515,36 +370,7 @@ footer strong { color:rgba(248,250,252,.38) }
       <div class="screen-card">
         <div class="screen-label">📊 Stats</div>
         <div class="screen-body sc-stats">
-          <div class="mini-phone">
-            <div class="mp-bar"><span class="mp-logo">🧬</span><div class="mp-name">DigestQ</div><div class="mp-pts">⭐ 590 pts</div></div>
-            <div class="mp-tabs"><div class="mp-tab">🏠</div><div class="mp-tab">🧩</div><div class="mp-tab">🧬</div><div class="mp-tab">🔄</div><div class="mp-tab">🔬</div><div class="mp-tab">❓</div><div class="mp-tab">✏️</div><div class="mp-tab active">📊</div></div>
-            <div class="mp-content">
-              <div style="background:rgba(255,255,255,.06);border-radius:4px;padding:4px;margin-bottom:4px;display:flex;align-items:center;gap:6px">
-                <div style="font-size:.9rem">👤</div>
-                <div style="font-size:.5rem;color:white;font-weight:600;flex:1">PLAYER<br><span style="font-size:.44rem;font-weight:400">name</span></div>
-                <div style="background:rgba(59,130,246,.2);border:1px solid #3b82f6;border-radius:10px;padding:1px 5px;font-size:.38rem;color:#60a5fa">✏️ Change</div>
-              </div>
-              <div style="background:#0d1f3c;border-radius:4px;padding:5px;margin-bottom:4px">
-                <div style="display:flex;justify-content:space-between;align-items:start">
-                  <div><div style="font-size:.4rem;color:rgba(255,255,255,.5);letter-spacing:.5px">YOUR PROGRESS</div><div class="mp-stats-pts">590</div><div class="mp-stats-sub">points earned</div></div>
-                  <div style="background:#dc2626;border-radius:10px;padding:2px 6px;font-size:.4rem;font-weight:700;color:white">🧬 Biologist</div>
-                </div>
-                <div class="mp-lvl"><div class="mp-lvl-badge">LVL 6</div><div class="mp-lvl-bar"><div class="mp-lvl-fill"></div></div><div style="font-size:.4rem;color:rgba(255,255,255,.4)">10 to next</div></div>
-                <div class="mp-stats-row">
-                  <div class="mp-stat-box"><div class="mp-stat-val">0%</div><div class="mp-stat-lbl">Accuracy</div></div>
-                  <div class="mp-stat-box"><div class="mp-stat-val">0</div><div class="mp-stat-lbl">Activities</div></div>
-                  <div class="mp-stat-box"><div class="mp-stat-val">0%</div><div class="mp-stat-lbl">Mastery</div></div>
-                </div>
-              </div>
-              <div style="font-size:.4rem;color:rgba(255,255,255,.4);margin-bottom:3px;letter-spacing:.5px">ACHIEVEMENTS</div>
-              <div style="display:flex;gap:3px">
-                <div style="flex:1;background:rgba(255,255,255,.06);border:1px solid #16a34a;border-radius:3px;padding:3px;text-align:center"><div style="font-size:.7rem">🌱</div><div style="font-size:.34rem;color:#16a34a">First Steps</div></div>
-                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">🔬</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Scientist</div></div>
-                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">✏️</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Wordsmith</div></div>
-                <div style="flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:3px;text-align:center;opacity:.4"><div style="font-size:.7rem">📚</div><div style="font-size:.34rem;color:rgba(255,255,255,.4)">Bookworm</div></div>
-              </div>
-            </div>
-          </div>
+          <img src="../images/8.jpg" alt="DigestQ Stats screen" class="screen-img">
         </div>
       </div>
 
@@ -664,7 +490,7 @@ footer strong { color:rgba(248,250,252,.38) }
     <span class="cta-emoji">🧬</span>
     <h2>Ready to learn digestion?</h2>
     <p>No sign-up. No ads. No internet needed after install.<br>Just download and start learning.</p>
-    <a href="https://drive.google.com/uc?export=download&id=1-w-Mh415kne5pEtYjEjZ7AlJp7k_s-ud" download="DigestQ.apk" class="dl-btn" style="margin:0 auto">
+    <a href="https://drive.google.com/uc?export=download&id=1csWx5KXt0fWdjsNxgbZx-EmKKvYLGcVn" download="DigestQ.apk" class="dl-btn" style="margin:0 auto">
       <div class="dl-icon">🤖</div>
       <div class="dl-text"><span>Free for Android</span><strong>Download APK Now</strong></div>
     </a>
